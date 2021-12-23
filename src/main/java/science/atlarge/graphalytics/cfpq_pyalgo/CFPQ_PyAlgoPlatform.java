@@ -120,23 +120,8 @@ public class CFPQ_PyAlgoPlatform implements Platform {
 
 		CFPQ_PyAlgoJob job;
 		switch (algorithm) {
-			case BFS:
-				job = new BreadthFirstSearchJob(runSpecification, platformConfig, inputPath, outputPath);
-				break;
-			case CDLP:
-				job = new CommunityDetectionLPJob(runSpecification, platformConfig, inputPath, outputPath);
-				break;
-			case LCC:
-				job = new LocalClusteringCoefficientJob(runSpecification, platformConfig, inputPath, outputPath);
-				break;
-			case PR:
-				job = new PageRankJob(runSpecification, platformConfig, inputPath, outputPath);
-				break;
-			case WCC:
-				job = new WeaklyConnectedComponentsJob(runSpecification, platformConfig, inputPath, outputPath);
-				break;
-			case SSSP:
-				job = new SingleSourceShortestPathsJob(runSpecification, platformConfig, inputPath, outputPath);
+			case APR:
+				job = new AllPairsReachabilityJob(runSpecification, platformConfig, inputPath, outputPath);
 				break;
 			default:
 				throw new PlatformExecutionException("Failed to load algorithm implementation.");

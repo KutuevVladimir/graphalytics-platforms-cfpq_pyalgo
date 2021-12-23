@@ -59,6 +59,10 @@ while [[ $# -gt 1 ]] # Parse two arguments: [--key value] or [-k value]
       OUTPUT_PATH="$value"
       shift;;
 
+    --grammar-path)
+          GRAMMAR_PATH="$value"
+          shift;;
+
     --home-dir)
       HOME_DIR="$value"
       shift;;
@@ -79,55 +83,22 @@ while [[ $# -gt 1 ]] # Parse two arguments: [--key value] or [-k value]
   shift
 done
 
-# TODO Reconstruct executable commandline instructions (platform-specific).
-# case $ALGORITHM in
-#
-#     bfs)
-#       COMMAND="$rootdir/bin/exe/$ALGORITHM --jobid $JOB_ID \
-#         --root $SOURCE_VERTEX \
-#         --dataset $INPUT_PATH --output $OUTPUT_PATH \
-#         --threadnum $NUM_THREADS"
-#
-#       ;;
-#
-#     wcc)
-#       COMMAND="$rootdir/bin/exe/$ALGORITHM --jobid $JOB_ID \
-#         --dataset $INPUT_PATH --output $OUTPUT_PATH \
-#         --threadnum $NUM_THREADS"
-#       ;;
-#
-#     pr)
-#       COMMAND="$rootdir/bin/exe/$ALGORITHM --jobid $JOB_ID \
-#         --dampingfactor $DAMPING_FACTOR --iteration $MAX_ITERATION \
-#         --dataset $INPUT_PATH --output $OUTPUT_PATH \
-#         --threadnum $NUM_THREADS"
-#       ;;
-#
-#     cdlp)
-#       COMMAND="$rootdir/bin/exe/$ALGORITHM --jobid $JOB_ID \
-#         --iteration $MAX_ITERATION \
-#         --dataset $INPUT_PATH --output $OUTPUT_PATH \
-#         --threadnum $NUM_THREADS"
-#       ;;
-#
-#     lcc)
-#       COMMAND="$rootdir/bin/exe/$ALGORITHM --jobid $JOB_ID \
-#         --dataset $INPUT_PATH --output $OUTPUT_PATH \
-#         --threadnum $NUM_THREADS"
-#       ;;
-#
-#     sssp)
-#       COMMAND="$rootdir/bin/exe/$ALGORITHM --jobid $JOB_ID \
-#         --root $SOURCE_VERTEX \
-#         --dataset $INPUT_PATH --output $OUTPUT_PATH \
-#         --threadnum $NUM_THREADS"
-#       ;;
-#
-#     *)
-#       echo "Error: algorithm " + $ALGORITHM +"not defined."
-#       exit 1
-#       ;;
-# esac
+# Construct executable commandline instructions (platform-specific).
+ case $ALGORITHM in
+
+     apr)
+       COMMAND="python3 $rootdir/src/main/python/src/algorithms/$ALGORITHM.py --jobid $JOB_ID \
+         --grammar $GRAMMAR_PATH \
+         --dataset $INPUT_PATH --output $OUTPUT_PATH"
+
+       ;;
+
+
+     *)
+       echo "Error: algorithm " + $ALGORITHM +"not defined."
+       exit 1
+       ;;
+ esac
 
 
 

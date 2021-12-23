@@ -13,52 +13,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package science.atlarge.graphalytics.cfpq_pyalgo.algorithms.pr;
+package science.atlarge.graphalytics.cfpq_pyalgo.algorithms.bfs;
 
 import science.atlarge.graphalytics.domain.algorithms.AlgorithmParameters;
-import science.atlarge.graphalytics.domain.algorithms.PageRankParameters;
+import science.atlarge.graphalytics.domain.algorithms.BreadthFirstSearchParameters;
 import science.atlarge.graphalytics.execution.RunSpecification;
 import science.atlarge.graphalytics.domain.benchmark.BenchmarkRun;
 import science.atlarge.graphalytics.cfpq_pyalgo.CFPQ_PyAlgoJob;
 import science.atlarge.graphalytics.cfpq_pyalgo.CFPQ_PyAlgoConfiguration;
 
 /**
- * Page Rank job implementation for CFPQ_PyAlgo. This class is responsible for formatting PR-specific
+ * All-pairs reachability job implementation for CFPQ_PyAlgo. This class is responsible for formatting BFS-specific
  * arguments to be passed to the platform executable, and does not include the implementation of the algorithm.
  *
  * @author Kutuev Vladimir
  */
-public final class PageRankJob extends CFPQ_PyAlgoJob {
+public final class AllPairsReachabilityJob extends CFPQ_PyAlgoJob {
 
-	private final long iteration;
-	private final float dampingFactor;
+	private final long grammarPath;
 
 	/**
-	 * Creates a new BreadthFirstSearchJob object with all mandatory parameters specified.
+	 * Creates a new AllPairsReachabilityJob object with all mandatory parameters specified.
 	 *
 	 * @param platformConfig the platform configuration.
-	 * @param inputPath the path to the loaded graph.
+	 * @param inputPath the path to the input graph.
 	 */
-	public PageRankJob(RunSpecification runSpecification, CFPQ_PyAlgoConfiguration platformConfig,
-					   String inputPath, String outputPath) {
+	public AllPairsReachabilityJob(RunSpecification runSpecification, CFPQ_PyAlgoConfiguration platformConfig,
+								 String inputPath, String outputPath) {
 		super(runSpecification, platformConfig, inputPath, outputPath);
 
 		AlgorithmParameters parameters = runSpecification.getBenchmarkRun().getAlgorithmParameters();
-		this.iteration = ((PageRankParameters)parameters).getNumberOfIterations();
-		this.dampingFactor = ((PageRankParameters)parameters).getDampingFactor();
+		this.grammarPath = ((AllPairsReachabilityParameters)parameters).getGrammarPath(); //to do in core
 	}
 
 	@Override
 	protected void appendAlgorithmParameters() {
 
 		commandLine.addArgument("--algorithm");
-		commandLine.addArgument("pr");
+		commandLine.addArgument("apr");
 
-		commandLine.addArgument("--damping-factor", false);
-		commandLine.addArgument(String.valueOf(dampingFactor), false);
-
-		commandLine.addArgument("--max-iteration", false);
-		commandLine.addArgument(String.valueOf(iteration), false);
-
+		commandLine.addArgument("--grammar-path", false);
+		commandLine.addArgument(String.valueOf(grammarPath), false);
 	}
 }
